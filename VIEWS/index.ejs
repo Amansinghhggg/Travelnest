@@ -1,0 +1,20 @@
+<% layout('layouts/boilerplate') %>
+<div class="container">
+    <h1>All Listings</h1>
+
+    <div class="row">
+        <% listings.forEach(listing => { %>
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card h-100">
+                    <img src="<%= listing.image %>" class="card-img-top" alt="<%= listing.title %>">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><%= listing.title %></h5>
+                        <p class="card-text">Address: <%= listing.location %>, <%= listing.country %></p>
+                        <p class="card-text">Price: ₹<%= listing.price.toLocaleString("en-IN") %></p>
+                        <a href="/listings/<%= listing._id %>" class="btn">View Listing</a>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>

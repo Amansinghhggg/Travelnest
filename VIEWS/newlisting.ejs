@@ -1,0 +1,61 @@
+<% layout('layouts/boilerplate') %>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="CNL">Create New Listing</h2>
+            
+            <form action="/listings" method="POST"  novalidate class="row g-3 needs-validation">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" 
+                           placeholder="e.g., Luxury Penthouse with City Views, Cozy Mountain Cabin" required>
+                           <div class="invalid-feedback">Enter A Valid Title</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4" 
+                              placeholder="Tell guests what makes your place special... amenities like WiFi, kitchen, pool, nearby attractions, perfect for families/couples, etc." required></textarea>
+                                <div class="invalid-feedback">Enter A Valid Description</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image URL</label>
+                    <input type="url" class="form-control" id="image" name="image" 
+                           placeholder="https://example.com/stunning-property-photo.jpg">
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price per night (₹)</label>
+                            <input type="number" class="form-control" id="price" name="price" 
+                                   placeholder="3500" min="1" required>
+                            <div class="invalid-feedback">Enter A Valid Price</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="country" class="form-label">Country</label>
+                            <input type="text" class="form-control" id="country" name="country" 
+                                   placeholder="e.g., India, Maldives, Nepal, Sri Lanka" required>
+                            <div class="invalid-feedback">Enter A Valid Country</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="location" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="location" name="location" 
+                           placeholder="e.g., Udaipur Lakeside, Delhi NCR, Shimla Mall Road" required>
+                    <div class="invalid-feedback">Enter A Valid Location</div>
+                </div>
+                
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Create Listing</button>
+                    <a href="/listings" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

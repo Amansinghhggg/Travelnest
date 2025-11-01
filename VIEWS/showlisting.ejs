@@ -1,0 +1,75 @@
+<% layout('layouts/boilerplate') %>
+<body>
+  <div class="airbnb-listing-container">
+    <h1 class="airbnb-title">Listing Info</h1>
+
+    <div class="airbnb-listing-card">
+      <h2 class="airbnb-listing-name"><%= listing.title %></h2>
+      <p class="airbnb-location">
+        <strong>Location:</strong> <%= listing.location %>, <%= listing.country %>
+      </p>
+      <p class="airbnb-price">
+        <strong>Price:</strong> <%= listing.price.toLocaleString("en-IN") %> Rs
+      </p>
+      <p class="airbnb-description">
+        <strong>Description:</strong> <%= listing.description %>
+      </p>
+      <img class="airbnb-image" src="<%= listing.image %>" alt="<%= listing.title %>">
+
+      <div class="airbnb-actions" style="gap:0; margin-top:32px;">
+        <a href="/listings/<%= listing._id %>/edit" class="btn airbnb-btn-warning"><b>Edit Listing</b></a>
+        <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST" class="airbnb-delete-form" style="margin:0; flex:1;">
+          <button type="submit" class="btn airbnb-btn-danger"><b>Delete Listing</b></button>
+        </form>
+      </div>
+    </div>
+    <div class="review-section" style="margin-top:40px;">
+      <h2>Reviews</h2>
+      <% if(listing.reviews.length === 0){ %>
+        <p class="text-muted">No Reviews Yet - Be The First Reviewer!</p>
+      <% } else { %>
+      <div class="row">
+      <%  for(let review of listing.reviews){ %>
+        <div class="col-md-6 col-lg-4 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Rating: <%= review.rating %>/5 ⭐</h5>
+              <p class="card-text"><%= review.comment %></p>
+              <small class="text-muted"><%= review.createdAt ? new Date(review.createdAt).toLocaleDateString() : 'Just now' %></small>
+              <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" class="review-delete-form">
+                <button type="submit" class="btn review-delete-btn">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% } %>
+      </div>
+      <% } %>
+  </div>
+ 
+    <!-- Review Section -->
+    <div class="review-section" style="margin-top:40px;">
+      <h2>Write a Review</h2>
+
+      <form action="/listings/<%= listing._id %>/reviews" method="POST" class="review-form">
+
+        <label for="rating">Your Rating:</label>
+        <div class="stars">
+          <% for (let i = 5; i >= 1; i--) { %>
+            <input type="radio" name="rating" id="star-<%= i %>" value="<%= i %>">
+            <label for="star-<%= i %>">★</label>
+          <% } %>
+        </div>
+
+        <label for="comment">Your Review:</label>
+        <div class="mb-3"> 
+<textarea class="form-control" name="comment" id="comment" rows="4" placeholder="Share your experience..." required></textarea>
+ <div class="invalid-feedback">Enter A Valid Description</div>
+        </div>
+        
+        <button type="submit" class="btn airbnb-btn-primary">Submit Review</button>
+      </form>
+    </div>
+  </div>
+
+</body>
