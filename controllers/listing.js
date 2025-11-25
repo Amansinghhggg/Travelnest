@@ -115,8 +115,15 @@ module.exports.updateListing = async (req, res, next) => {
       $or: searchConditions
     }).populate('reviews');
     
+    let savedListingIds = [];
+    if (req.user) {
+      const User = require('../MODELS/user');
+      const user = await User.findById(req.user._id);
+      savedListingIds = user.savedListings.map(id => id.toString());
+    }
+    
     console.log('Found listings:', listings.length);
-    res.render('index', { listings });
+    res.render('index', { listings, savedListingIds });
   }
 
 // Filter: Trending (most reviewed)
@@ -141,7 +148,15 @@ module.exports.filterTrending = async (req, res, next) => {
   ]);
   
   await Listing.populate(listings, { path: 'reviews' });
-  res.render('index', { listings });
+  
+  let savedListingIds = [];
+  if (req.user) {
+    const User = require('../MODELS/user');
+    const user = await User.findById(req.user._id);
+    savedListingIds = user.savedListings.map(id => id.toString());
+  }
+  
+  res.render('index', { listings, savedListingIds });
 }
 
 // Filter: Best Rated
@@ -155,19 +170,42 @@ module.exports.filterBestRated = async (req, res, next) => {
     return avgB - avgA;
   });
   
-  res.render('index', { listings });
+  let savedListingIds = [];
+  if (req.user) {
+    const User = require('../MODELS/user');
+    const user = await User.findById(req.user._id);
+    savedListingIds = user.savedListings.map(id => id.toString());
+  }
+  
+  res.render('index', { listings, savedListingIds });
 }
 
 // Filter: Price Low to High
 module.exports.filterPriceLowToHigh = async (req, res, next) => {
   const listings = await Listing.find({}).populate('reviews').sort({ price: 1 });
-  res.render('index', { listings });
+  
+  let savedListingIds = [];
+  if (req.user) {
+    const User = require('../MODELS/user');
+    const user = await User.findById(req.user._id);
+    savedListingIds = user.savedListings.map(id => id.toString());
+  }
+  
+  res.render('index', { listings, savedListingIds });
 }
 
 // Filter: Latest
 module.exports.filterLatest = async (req, res, next) => {
   const listings = await Listing.find({}).populate('reviews').sort({ createdAt: -1 });
-  res.render('index', { listings });
+  
+  let savedListingIds = [];
+  if (req.user) {
+    const User = require('../MODELS/user');
+    const user = await User.findById(req.user._id);
+    savedListingIds = user.savedListings.map(id => id.toString());
+  }
+  
+  res.render('index', { listings, savedListingIds });
 }
 
 // Save Listings
