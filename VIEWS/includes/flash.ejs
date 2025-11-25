@@ -1,13 +1,32 @@
-<%if(success&&success.length){%>
-    <div class="alert alert-success alert-dismissible fade show col-6 offset-3" role="alert">
-      <%=success%>
+<style>
+.flash-container {
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1025;
+  width: 100%;
+  max-width: 600px;
+  padding: 0 15px;
+}
+.flash-container .alert {
+  margin: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+</style>
+
+<div class="flash-container">
+  <%if(success&&success.length){%>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong><i class="fa-solid fa-circle-check me-2"></i></strong><%=success%>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-<%}%>
+  <%}%>
 
-<%if(error&&error.length){%>
- <div class="alert alert-danger alert-dismissible fade show col-6 offset-3" role="alert">
-      <%=error%>
+  <%if(error&&error.length){%>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong><i class="fa-solid fa-circle-xmark me-2"></i></strong><%=error%>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-   </div>
-<%}%>
+    </div>
+  <%}%>
+</div>

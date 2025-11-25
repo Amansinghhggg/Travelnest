@@ -1,0 +1,258 @@
+/* ========================================
+   SHOW LISTING PAGE - Single Listing View
+   ======================================== */
+
+.show-listing-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.listing-header {
+  margin-bottom: 20px;
+}
+
+.listing-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.listing-location {
+  font-size: 1rem;
+  color: #666;
+}
+
+.listing-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.listing-image {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.listing-details {
+  margin-top: 30px;
+}
+
+.listing-details h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.listing-details p {
+  line-height: 1.8;
+  color: #444;
+}
+
+.host-info {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.booking-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.booking-card .price {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.booking-card .price span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #666;
+}
+
+.date-inputs {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.date-input-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #ddd;
+}
+
+.date-input-group .input-wrapper {
+  padding: 12px;
+  border-right: 1px solid #ddd;
+}
+
+.date-input-group .input-wrapper:last-child {
+  border-right: none;
+}
+
+.date-input-group label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.date-input-group input {
+  border: none;
+  width: 100%;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.guests-input {
+  padding: 12px;
+}
+
+.guests-input label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.guests-input input {
+  border: none;
+  width: 100%;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.book-btn {
+  background: linear-gradient(90deg, #ff385c 0%, #bd1e59 100%);
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.book-btn:hover {
+  opacity: 0.9;
+}
+
+.booking-note {
+  text-align: center;
+  color: #666;
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+.price-breakdown {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.price-row.total {
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
+
+.owner-actions {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.owner-actions .btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 100px;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.owner-actions .btn i {
+  font-size: 0.85rem;
+}
+
+.owner-actions form {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+.btn-edit {
+  background: #ff385c;
+  color: white;
+  border: none;
+}
+
+.btn-edit:hover {
+  background: #e02f4f;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255,56,92,0.4);
+}
+
+.btn-delete {
+  background: #ff385c;
+  color: white;
+  border: none;
+}
+
+.btn-delete:hover {
+  background: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(211,47,47,0.4);
+}
+
+.listing-image-wrapper {
+  position: relative;
+}
+
+@media (max-width: 992px) {
+  .listing-main {
+    grid-template-columns: 1fr;
+  }
+  
+  .booking-card {
+    position: static;
+    margin-top: 30px;
+  }
+}

@@ -5,7 +5,11 @@ const UserSchema = new Schema({
     email: {
         type: String,
         required: true
-    }
+    },
+    savedListings: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Listing'
+    }]
 });
 UserSchema.plugin(passportLocalMongoose);
 module.exports = mongoose.model('User', UserSchema);

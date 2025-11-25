@@ -15,9 +15,8 @@ const listingSchema = new mongoose.Schema({
 		required: true
 	},
 	image: {
-		type: String,
-		default: "https://plus.unsplash.com/premium_photo-1689609950112-d66095626efb?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG91c2V8ZW58MHx8MHx8fDA%3D&fm=jpg&q=60&w=3000",
-		set: (v) => v === "" ? "https://plus.unsplash.com/premium_photo-1689609950112-d66095626efb?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG91c2V8ZW58MHx8MHx8fDA%3D&fm=jpg&q=60&w=3000" : v
+		url: String,
+		filename: String
 	},
 	location: {
 		type: String,

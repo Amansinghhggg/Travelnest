@@ -1,0 +1,150 @@
+<% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/css/profile.css">
+
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="profile-avatar">
+      <i class="fa-solid fa-user"></i>
+    </div>
+    <h1>@<%= currentUser.username %></h1>
+    <p style="font-size: 1.1rem; opacity: 0.9;">Member since <%= new Date(currentUser.createdAt || Date.now()).getFullYear() %></p>
+    
+    <div class="profile-stats">
+      <div class="stat-item">
+        <span class="stat-number"><%= userListings ? userListings.length : 0 %></span>
+        <span class="stat-label">Listings</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number"><%= savedListings ? savedListings.length : 0 %></span>
+        <span class="stat-label">Saved</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number"><%= userReviews ? userReviews.length : 0 %></span>
+        <span class="stat-label">Reviews</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-tabs">
+    <button class="tab-button active" onclick="showTab('listings')">
+      <i class="fa-solid fa-house"></i> My Listings
+    </button>
+    <button class="tab-button" onclick="showTab('saved')">
+      <i class="fa-solid fa-heart"></i> Saved Listings
+    </button>
+    <button class="tab-button" onclick="showTab('bookings')">
+      <i class="fa-solid fa-calendar-check"></i> Booking Requests
+    </button>
+  </div>
+
+  <!-- My Listings Tab -->
+  <div id="listings-tab" class="tab-content active">
+    <% if (userListings && userListings.length > 0) { %>
+      <div class="listings-grid">
+        <% for(let listing of userListings) { %>
+          <div class="listing-card">
+            <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="listing-image">
+            <div class="listing-content">
+              <h3 class="listing-title"><%= listing.title %></h3>
+              <p class="listing-location">
+                <i class="fa-solid fa-location-dot"></i> <%= listing.location %>, <%= listing.country %>
+              </p>
+              <div class="listing-price">₹<%= listing.price.toLocaleString("en-IN") %> <span style="font-size: 0.8rem; font-weight: 400; color: #666;">/night</span></div>
+              <div class="listing-actions">
+                <a href="/listings/<%= listing._id %>" class="btn-view">View</a>
+                <a href="/listings/<%= listing._id %>/edit" class="btn-edit">
+                  <i class="fa-solid fa-pen"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    <% } else { %>
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="fa-solid fa-house-circle-xmark"></i>
+        </div>
+        <div class="empty-text">You haven't created any listings yet</div>
+        <a href="/listings/new" class="btn-create">
+          <i class="fa-solid fa-plus"></i>
+          Create Your First Listing
+        </a>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- Saved Listings Tab -->
+  <div id="saved-tab" class="tab-content">
+    <% if (savedListings && savedListings.length > 0) { %>
+      <div class="listings-grid">
+        <% for(let listing of savedListings) { %>
+          <div class="listing-card">
+            <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="listing-image">
+            <div class="listing-content">
+              <h3 class="listing-title"><%= listing.title %></h3>
+              <p class="listing-location">
+                <i class="fa-solid fa-location-dot"></i> <%= listing.location %>, <%= listing.country %>
+              </p>
+              <div class="listing-price">₹<%= listing.price.toLocaleString("en-IN") %> <span style="font-size: 0.8rem; font-weight: 400; color: #666;">/night</span></div>
+              <div class="listing-actions">
+                <a href="/listings/<%= listing._id %>" class="btn-view">View</a>
+                <button type="submit" form="unsave-form-<%= listing._id %>" class="btn-edit" style="min-width: 50px; padding: 10px;">
+                  <i class="fa-solid fa-heart-crack"></i>
+                </button>
+                <form id="unsave-form-<%= listing._id %>" action="/listings/<%= listing._id %>/unsave?_method=DELETE" method="POST" style="display: none;"></form>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    <% } else { %>
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="fa-regular fa-heart"></i>
+        </div>
+        <div class="empty-text">No saved listings yet</div>
+        <p style="color: #999; margin-bottom: 30px;">Save your favorite listings to view them here</p>
+        <a href="/listings" class="btn-create">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          Explore Listings
+        </a>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- Booking Requests Tab -->
+  <div id="bookings-tab" class="tab-content">
+    <div class="empty-state">
+      <div class="empty-icon">
+        <i class="fa-solid fa-calendar-xmark"></i>
+      </div>
+      <div class="empty-text">No booking requests yet</div>
+      <p style="color: #999; margin-bottom: 30px;">Browse listings to make your first booking</p>
+      <a href="/listings" class="btn-create">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        Explore Listings
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showTab(tabName) {
+    // Hide all tabs
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    
+    // Remove active from all buttons
+    document.querySelectorAll('.tab-button').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    // Show selected tab
+    document.getElementById(tabName + '-tab').classList.add('active');
+    
+    // Add active to clicked button
+    event.target.closest('.tab-button').classList.add('active');
+  }
+</script>

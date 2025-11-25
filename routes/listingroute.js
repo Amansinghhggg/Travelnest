@@ -1,75 +1,42 @@
 const express = require('express');
 const router = express.Router();
 const wrapAsync = require('../utils/wrapasync');
-const Listing = require('../MODELS/listing');
 const {isloggedIn,isOwner,validateListing} = require('../authenticatefuncN')
+const listingController = require('../controllers/listing');
+const multer = require('multer');
+  const {storage} = require('../cloudConfig');
 
+const upload = multer({storage});
 // Routes For Listings
-// Index
-router.get('/',wrapAsync(async (req, res, next) => {
-    const listings = await Listing.find({}).populate('reviews');
-    res.render('index', { listings });
-  }));
+// All Listings And Create Listing
+router.route('/')
+.get(wrapAsync(listingController.index))
+.post(isloggedIn,upload.single('Listing[image]'), validateListing,wrapAsync(listingController.createListing));
 
-// New listing Form
-router.get('/new',isloggedIn, wrapAsync(async (req, res) => {
-  res.render('newlisting');
-}));
+// New listing
+router.get('/new',isloggedIn, wrapAsync(listingController.renderNewForm));
 
-// Create listing
-router.post('/',isloggedIn, validateListing, wrapAsync(async (req, res,next) => {
-  const listing = new Listing(req.body);
-  listing.owner = req.user._id;
-  await listing.save();
-  req.flash('success', 'Successfully created a new listing!');
-  res.redirect(`/listings`); // or res.redirect('/listings');
-}));
+// Search listing - MUST be before /:id routes
+router.get('/search', wrapAsync(listingController.searchlisting));
 
-// Edit listing Form
+// Filter routes
+router.get('/filter/trending', wrapAsync(listingController.filterTrending));
+router.get('/filter/bestrated', wrapAsync(listingController.filterBestRated));
+router.get('/filter/price-low-high', wrapAsync(listingController.filterPriceLowToHigh));
+router.get('/filter/latest', wrapAsync(listingController.filterLatest));
 
-router.get('/:id/edit',isloggedIn,isOwner, wrapAsync(async (req, res, next) => {
-  const { id } = req.params;
-  const listing = await Listing.findById(id);
-   if (!listing){
-      req.flash('error', 'Listing Does Not Exist!');
-      return res.redirect('/listings');
-    }
-  res.render('editlisting', { listing });
-}));
+// Edit listing 
+router.get('/:id/edit',isloggedIn,isOwner, wrapAsync(listingController.renderEditForm));
+// Show, Update, Delete listing
+router.route('/:id')
+.get(wrapAsync(listingController.showListing))
+.put(isloggedIn,upload.single('Listing[image]') ,validateListing, wrapAsync(listingController.updateListing))
+.delete(isloggedIn,isOwner,wrapAsync(listingController.deleteListing));
 
-// Show one listing
+// Save listing to wishlist
+router.post('/:id/save', isloggedIn, wrapAsync(listingController.saveListing));
 
-router.get('/:id', wrapAsync(async (req, res, next) => {
-  const { id } = req.params;
-    const listing = await Listing.findById(id).populate({path:'reviews', populate:{path: 'author'}}).populate("owner");
-    if (!listing){
-      req.flash('error', 'Listing Does Not Exist!');
-      return res.redirect('/listings');
-    }
-    console.log(listing);
-    res.render('showlisting', { listing });
-}));
+// Unsave listing from wishlist
+router.delete('/:id/unsave', isloggedIn, wrapAsync(listingController.unsaveListing));
 
-// Update listing
-
-router.put('/:id',isloggedIn, wrapAsync(async (req, res, next) => {
-    const { id } = req.params;
-    const listing = await Listing.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
-     if (!listing){
-      req.flash('error', 'Listing Does Not Exist!');
-      return res.redirect('/listings');
-    };
-    req.flash('success', 'Successfully updated the listing!');
-    res.redirect(`/listings/${listing._id}`);
-  }));
-
-// Deletelisting
-router.delete('/:id',isloggedIn,isOwner,wrapAsync(async (req, res, next) => {
-   const { id } = req.params;
-    await Listing.findByIdAndDelete(id);
-    req.flash('success', 'Successfully deleted the listing!');
-    res.redirect('/listings');
-  }));
-  
-
-  module.exports = router;
+module.exports = router;

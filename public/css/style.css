@@ -1,15 +1,42 @@
+/* ========================================
+   WANDERLUST - GLOBAL STYLES
+   ======================================== */
+
+/* ===== BASE STYLES ===== */
 body {
-  padding-top: 70px;
+  padding-top: 85px;
   background-color: #fafafa;
   font-family: 'Poppins', sans-serif;
 }
 
-/* navbar */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #222;
+  font-size: 2rem;
+}
+
+.container {
+  max-width: 1440px;
+  margin: auto;
+  padding: 0 24px;
+}
+
+.row {
+  margin-bottom: 80px;
+}
+
+/* ===== NAVBAR ===== */
 .navbar {
   background-color: #ffffff !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 0.6rem 1.5rem;
   transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .navbar-brand {
@@ -48,32 +75,7 @@ body {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%2840,40,40,0.9%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
-.navbar.scrolled {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-/* Container Styling */
-.container {
-  max-width: 1440px;
-  margin: auto;
-  padding: 0 24px;
-}
-
-/* Page Title */
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: 600;
-  color: #222;
-  font-size: 2rem;
-}
-/* REMOVE CSS Grid and use Bootstrap flexbox */
-.row {
-  margin-bottom: 80px;
-  /* Remove all grid properties */
-}
-
-/* Individual Card - Airbnb style */
+/* ===== LISTING CARDS ===== */
 .card {
   background-color: #fff;
   border: none;
@@ -90,7 +92,6 @@ h1 {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
-/* Image - Airbnb aspect ratio */
 .card-img-top {
   width: 100%;
   height: 200px;
@@ -98,7 +99,6 @@ h1 {
   border-radius: 12px 12px 0 0;
 }
 
-/* Card Body */
 .card-body {
   padding: 16px;
 }
@@ -124,7 +124,7 @@ h1 {
   margin-bottom: 12px;
 }
 
-/* View Button - Airbnb style */
+/* ===== BUTTONS ===== */
 .btn,
 .btn-primary {
   background-color: #FF5A5F !important;
@@ -162,18 +162,7 @@ h1 {
   transform: translateY(0);
   box-shadow: 0 1px 3px rgba(255, 90, 95, 0.3) !important;
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .container {
-    padding: 0 16px;
-  }
-  
-  h1 {
-    font-size: 1.5rem;
-  }
-}
-/* footer */
+/* ===== FOOTER ===== */
 .footer {
   background-color: #f7f7f7;
   color: #484848;
@@ -243,7 +232,213 @@ h1 {
   color: #FF5A5F;
 }
 
+/* ===== REVIEW SECTION ===== */
+.review-section {
+  flex-wrap: nowrap;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.review-section h2 {
+  margin-bottom: 15px;
+  color: #ff385c;
+}
+
+.rating-display {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.95rem;
+}
+
+.rating-display i {
+  font-size: 1rem;
+}
+
+.rating-display strong {
+  color: #222;
+  font-size: 1rem;
+}
+
+.rating-display .text-muted {
+  font-size: 0.9rem;
+}
+
+.rating-display-large {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+}
+
+.rating-display-large i {
+  font-size: 1.3rem;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-form textarea {
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  resize: vertical;
+}
+
+.review-form textarea:focus {
+  border-color: #ff385c;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255,56,92,0.1);
+}
+
+/* Star Rating Input */
+.stars {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 3px;
+  vertical-align: middle;
+}
+
+.stars input {
+  display: none;
+}
+
+.stars label {
+  font-size: 28px;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1; 
+  width: 34px;
+  height: 34px;
+}
+
+.stars input:checked ~ label,
+.stars label:hover,
+.stars label:hover ~ label {
+  color: #ff385c;
+}
+
+.review-delete-form {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  margin-top: 10px !important;
+}
+
+.review-delete-btn {
+  background: #222 !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 8px 16px !important;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  display: block !important;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.review-delete-btn:hover {
+  background: #111 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(34, 34, 34, 0.2);
+}
+/* ===== SIGNUP & LOGIN FORMS ===== */
+.signup-card {
+  background: #fff;
+  padding: 40px 35px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.signup-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+.signup-title {
+  color: #222;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.signup-card .form-label {
+  font-weight: 600;
+  color: #484848;
+  margin-bottom: 8px;
+}
+
+.signup-card .form-control {
+  border: 1.5px solid #ddd;
+  border-radius: 10px;
+  padding: 12px 16px;
+  transition: all 0.3s;
+}
+
+.signup-card .form-control:focus {
+  border-color: #FF5A5F;
+  box-shadow: 0 0 0 3px rgba(255,90,95,0.1);
+}
+
+.signup-btn {
+  background: #FF5A5F !important;
+  border: none !important;
+  border-radius: 12px;
+  padding: 14px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+}
+
+.signup-btn:hover {
+  background: #e00007 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255,90,95,0.3);
+}
+
+.signup-card small {
+  font-size: 0.85rem;
+}
+
+.signup-card input::placeholder {
+  color: #aaa;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .signup-card {
+    padding: 30px 20px;
+  }
+  
+  .signup-title {
+    font-size: 1.5rem;
+  }
+
   .footer-container {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
@@ -258,532 +453,4 @@ h1 {
   .social-icons {
     margin-top: 5px;
   }
-}
-/* ...existing code... */
-
-/* ===== NEW LISTING FORM STYLING ===== */
-.editlisting{
-    text-align: center;
-    margin-bottom: 20px;
-}
-/* Form Container */
-.container form {
-  max-width: 600px;
-  margin: 0 auto;
-  background: #fff;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e8e8e8;
-}
-
-/* Form Title */
-.container h1 {
-  color: #222;
-  margin-bottom: 32px;
-  font-size: 1.8rem;
-  text-align: center;
-}
-
-/* Form Labels */
-form label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: #222;
-  margin-bottom: 8px;
-  margin-top: 20px;
-}
-
-form label:first-of-type {
-  margin-top: 0;
-}
-
-/* Form Inputs */
-form input[type="text"],
-form input[type="number"],
-form input[type="url"],
-form textarea {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 16px;
-  background: #fff;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  font-family: inherit;
-}
-
-form input:focus,
-form textarea:focus {
-  outline: none;
-  border-color: #FF5A5F;
-  box-shadow: 0 0 0 3px rgba(255, 90, 95, 0.1);
-}
-
-/* Textarea specific */
-form textarea {
-  min-height: 120px;
-  resize: vertical;
-  line-height: 1.5;
-}
-
-/* Submit Button */
-form input[type="submit"] {
-  background: #FF5A5F;
-  color: white;
-  border: none;
-  padding: 16px 24px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 32px;
-  transition: all 0.3s ease;
-  text-transform: none;
-}
-
-form input[type="submit"]:hover {
-  background: #e00007;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 90, 95, 0.3);
-}
-
-form input[type="submit"]:active {
-  transform: translateY(0);
-}
-
-/* Form spacing improvements */
-form br {
-  display: none;
-}
-
-/* Input focus states for better UX */
-form input::placeholder,
-form textarea::placeholder {
-  color: #9ca3af;
-  font-size: 15px;
-}
-
-/* Form validation styles */
-form input:invalid {
-  border-color: #ef4444;
-}
-
-form input:valid {
-  border-color: #10b981;
-}
-
-/* Mobile responsiveness for form */
-@media (max-width: 768px) {
-  .container form {
-    padding: 24px 20px;
-    margin: 0 16px;
-  }
-  
-  .container h1 {
-    font-size: 1.5rem;
-    margin-bottom: 24px;
-  }
-  
-  form input[type="submit"] {
-    margin-top: 24px;
-  }
-}
-.CNL{
-    text-align: center;
-    margin-bottom: 20px;
-}
-/* show listings */
-
-/* Airbnb Show Listing Styling */
-.airbnb-listing-container {
-  max-width: 1000px;
-  /* margin: 48px auto 32px auto; */
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
-  padding: 40px 32px 32px 32px;
-  transition: box-shadow 0.3s, transform 0.2s;
-}
-
-.airbnb-listing-container:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.13);
-}
-
-.airbnb-title {
-  text-align: center;
-  color: #FF5A5F;
-  font-size: 2.2rem;
-  margin-bottom: 26px;
-  font-family: 'Montserrat', 'Poppins', Arial, sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-.airbnb-listing-card {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.airbnb-listing-name {
-  color: #222;
-  font-size: 1.7rem;
-  margin: 0 0 8px 0;
-  text-align: center;
-  font-family: 'Montserrat', 'Poppins', Arial, sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-}
-
-.airbnb-location,
-.airbnb-price,
-.airbnb-description {
-  font-size: 1.08rem;
-  color: #484848;
-  line-height: 1.7;
-  margin-bottom: 2px;
-  font-family: 'Poppins', Arial, sans-serif;
-}
-
-.airbnb-location strong,
-.airbnb-price strong,
-.airbnb-description strong {
-  color: #222;
-  font-weight: 600;
-}
-
-.airbnb-image {
-  width: 100%;
-  min-height: 200px;
-  max-height: 320px;
-  border-radius: 16px;
-  object-fit: cover;
-  margin: 16px 0 10px 0;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.09);
-  background: #f7f7f7;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.airbnb-image:hover {
-  transform: scale(1.025);
-  box-shadow: 0 12px 32px rgba(255,90,95,0.10);
-}
-
-.airbnb-actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  flex-wrap: wrap;
-  gap: 0; /* Remove gap for seamless buttons */
-}
-
-.airbnb-btn-warning,
-.airbnb-btn-danger {
-  flex: 1 1 0;
-  min-width: 120px;
-  max-width: 200px;
-  margin: 0;
-  border-radius: 0;
-  border: none !important;
-  box-shadow: none !important;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-
-.airbnb-btn-warning {
-  border-top-left-radius: 12px;
-  background-color: #FF5A5F !important;
-  color: white !important;
-}
-
-.airbnb-btn-warning:hover {
-  background-color: #ff4147 !important;
-  transform: translateY(-2px);
-}
-
-.airbnb-btn-danger {
-  border-top-right-radius: 12px;
-  background-color: #2c2c2c !important;
-  color: white !important;
-}
-
-.airbnb-btn-danger:hover {
-  background-color: #000000 !important;
-  transform: translateY(-2px);
-}
-
-.airbnb-btn-warning:not(:last-child) {
-  border-right: 2px solid #fff; /* subtle separation */
-}
-
-.airbnb-delete-form {
-  display: flex;
-  flex: 1 1 0;
-  margin: 0;
-  border: none !important;
-  box-shadow: none !important;
-  background: none !important;
-}
-
-@media (max-width: 768px) {
-  .airbnb-listing-container {
-    padding: 16px 4vw 20px 4vw;
-    max-width: 98vw;
-  }
-  .airbnb-title {
-    font-size: 1.3rem;
-    margin-bottom: 14px;
-  }
-  .airbnb-listing-name {
-    font-size: 1.1rem;
-  }
-  .airbnb-image {
-    min-height: 100px;
-    max-height: 160px;
-  }
-  .airbnb-actions {
-    flex-direction: row;
-    gap: 0;
-  }
-  .airbnb-btn-warning,
-  .airbnb-btn-danger {
-    min-width: 0;
-    width: 50%;
-    font-size: 1rem;
-    padding: 5px 0;
-    height: 44px;
-  }
-  .airbnb-actions {
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  .btn {
-    width: 100%;
-    font-size: 1rem;
-    padding: 10px 0;
-  }
-}
-.review-section {
-      flex-wrap: nowrap; /* prevent wrapping which can misalign the last star */
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .review-section h2 {
-      margin-bottom: 15px;
-      color: #ff385c;
-    }
-
-    /* Rating Display Styles */
-    .rating-display {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.95rem;
-    }
-
-    .rating-display i {
-      font-size: 1rem;
-    }
-
-    .rating-display strong {
-      color: #222;
-      font-size: 1rem;
-    }
-
-    .rating-display .text-muted {
-      font-size: 0.9rem;
-    }
-
-    .rating-display-large {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 1.1rem;
-    }
-
-    .rating-display-large i {
-      font-size: 1.3rem;
-    }
-
-    .review-form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .review-form textarea {
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #ddd;
-      resize: vertical;
-    }
-
-    .review-form textarea:focus {
-      border-color: #ff385c;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(255,56,92,0.1);
-    }
-
-    /* ===== Star Rating ===== */
-    .stars {
-      display: inline-flex;
-      flex-direction: row-reverse;
-      justify-content: flex-end;
-      align-items: center; /* ensure vertical centering of all stars */
-      gap: 3px; /* consistent spacing between stars */
-      vertical-align: middle;
-    }
-
-    .stars input {
-      display: none;
-    }
-
-    .stars label {
-      font-size: 28px;
-      color: #ccc;
-      cursor: pointer;
-      transition: color 0.2s ease;
-        padding: 0; /* remove extra padding/margins to keep alignment tight */
-        margin: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1; 
-        width: 34px; /* fixed square to avoid baseline/line-height issues */
-        height: 34px;
-    }
-
-    .stars input:checked ~ label,
-    .stars label:hover,
-    .stars label:hover ~ label {
-      color: #ff385c;
-    }
-
-    /* ===== Buttons ===== */
-    .airbnb-btn-primary {
-      background: #ff385c;
-      border: none;
-      color: white;
-      font-weight: bold;
-      padding: 10px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    .airbnb-btn-primary:hover {
-      background: #e03150;
-    }
-
-    /* Review Delete Form and Button */
-    .review-delete-form {
-      margin: 0 !important;
-      padding: 0 !important;
-      border: none !important;
-      background: none !important;
-      margin-top: 10px !important;
-    }
-
-    .review-delete-btn {
-      background: #222 !important;
-      border: none !important;
-      color: white !important;
-      font-weight: 600;
-      padding: 8px 16px !important;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 14px;
-      display: block !important;
-      width: 100%;
-      margin: 0 !important;
-    }
-
-    .review-delete-btn:hover {
-      background: #111 !important;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(34, 34, 34, 0.2);
-    }
-/* ===== SIGNUP FORM STYLING ===== */
-  .signup-card {
-    background: #fff;
-    padding: 40px 35px;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.10);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.signup-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-}
-
-.signup-title {
-    color: #222;
-    font-weight: 700;
-    font-size: 1.8rem;
-}
-
-.signup-card .form-label {
-    font-weight: 600;
-    color: #484848;
-    margin-bottom: 8px;
-}
-
-.signup-card .form-control {
-    border: 1.5px solid #ddd;
-    border-radius: 10px;
-    padding: 12px 16px;
-    transition: all 0.3s;
-}
-
-.signup-card .form-control:focus {
-    border-color: #FF5A5F;
-    box-shadow: 0 0 0 3px rgba(255,90,95,0.1);
-}
-
-.signup-btn {
-    background: #FF5A5F !important;
-    border: none !important;
-    border-radius: 12px;
-    padding: 14px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: all 0.3s;
-}
-
-.signup-btn:hover {
-    background: #e00007 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255,90,95,0.3);
-}
-
-.signup-card small {
-    font-size: 0.85rem;
-}
-
-.signup-card input::placeholder {
-    color: #aaa;
-}
-
-@media (max-width: 768px) {
-    .signup-card {
-        padding: 30px 20px;
-    }
-    
-    .signup-title {
-        font-size: 1.5rem;
-    }
 }

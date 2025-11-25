@@ -1,0 +1,75 @@
+/* ========================================
+   INDEX PAGE STYLES - Listings Grid
+   ======================================== */
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background: #101010;
+    color: #fff;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px 15px 0 0;
+    position: relative;
+}
+
+.wishlist-btn {
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    border: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.wishlist-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #ff5a5f;
+    transform: scale(1.1);
+}
+
+.btn-view {
+    background-color: #ff5a5f;
+    color: white;
+    border-radius: 25px;
+    padding: 8px 20px;
+    margin-top: auto;
+    transition: 0.2s ease-in-out;
+}
+
+.btn-view:hover {
+    background-color: #ff3b42;
+}
+
+.rating-stars i {
+    color: #ffcc00;
+    font-size: 0.9rem;
+}
+
+.rating-number {
+    font-weight: 600;
+    margin-left: 5px;
+}

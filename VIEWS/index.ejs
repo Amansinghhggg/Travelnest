@@ -1,44 +1,72 @@
 <% layout('layouts/boilerplate') %>
-<div class="container">
-    <h1>All Listings</h1>
+<link rel="stylesheet" href="/css/index.css">
 
+<div class="container">
     <div class="row">
         <% listings.forEach(listing => { %>
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card h-100">
-                    <img src="<%= listing.image %>" class="card-img-top" alt="<%= listing.title %>">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title"><%= listing.title %></h5>
-                        <p class="card-text">Address: <%= listing.location %>, <%= listing.country %></p>
-                        <p class="card-text">Price: ₹<%= listing.price.toLocaleString("en-IN") %>/Night</p>
-                        
-                        <!-- Average Rating Display -->
-                        <% if (listing.reviews.length > 0) { %>
-                            <div class="rating-display mb-2">
-                                <span class="text-warning">
-                                    <% for(let i = 0; i < Math.floor(listing.averageRating); i++) { %>
-                                        <i class="fa-solid fa-star"></i>
-                                    <% } %>
-                                    <% if (listing.averageRating % 1 >= 0.5) { %>
-                                        <i class="fa-solid fa-star-half-stroke"></i>
-                                    <% } %>
-                                    <% for(let i = Math.ceil(listing.averageRating); i < 5; i++) { %>
-                                        <i class="fa-regular fa-star"></i>
-                                    <% } %>
-                                </span>
-                                <strong class="ms-2"><%= listing.averageRating %></strong>
-                                <span class="text-muted">(<%= listing.reviews.length %>)</span>
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+
+            <div class="card h-100 position-relative">
+
+                <!-- Wishlist Icon -->
+                <% if (currentUser && savedListingIds.includes(listing._id.toString())) { %>
+                  <button type="submit" form="unsave-form-<%= listing._id %>" class="wishlist-btn" style="position: absolute; top: 12px; right: 12px; z-index: 10; width: 40px; height: 40px;">
+                      <i class="fa-solid fa-heart" style="color: #ff5a5f;"></i>
+                  </button>
+                  <form id="unsave-form-<%= listing._id %>" action="/listings/<%= listing._id %>/unsave?_method=DELETE" method="POST" style="display: none;"></form>
+                <% } else { %>
+                  <button type="submit" form="save-form-<%= listing._id %>" class="wishlist-btn" style="position: absolute; top: 12px; right: 12px; z-index: 10; width: 40px; height: 40px;">
+                      <i class="fa-regular fa-heart"></i>
+                  </button>
+                  <form id="save-form-<%= listing._id %>" action="/listings/<%= listing._id %>/save" method="POST" style="display: none;"></form>
+                <% } %>
+
+                <!-- Image -->
+                <img 
+                    src="<%= listing.image.url %>" 
+                    class="card-img-top" 
+                    alt="<%= listing.title %>"
+                >
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title mb-1"><%= listing.title %></h5>
+                    <p class="text-secondary small mb-1">
+                        📍 <%= listing.location %>, <%= listing.country %>
+                    </p>
+
+                    <p class="fw-bold mb-2">₹<%= listing.price.toLocaleString("en-IN") %> / night</p>
+
+                    <!-- Rating -->
+                    <% if (listing.reviews.length > 0) { %>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="rating-stars">
+                                <% for(let i = 0; i < Math.floor(listing.averageRating); i++) { %>
+                                    <i class="fa-solid fa-star"></i>
+                                <% } %>
+
+                                <% if (listing.averageRating % 1 >= 0.5) { %>
+                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                <% } %>
+
+                                <% for(let i = Math.ceil(listing.averageRating); i < 5; i++) { %>
+                                    <i class="fa-regular fa-star"></i>
+                                <% } %>
                             </div>
-                        <% } else { %>
-                            <div class="rating-display mb-2">
-                                <span class="text-muted">No reviews yet</span>
-                            </div>
-                        <% } %>
-                        
-                        <a href="/listings/<%= listing._id %>" class="btn">View Listing</a>
-                    </div>
+                            <span class="rating-number"><%= listing.averageRating %></span>
+                            <span class="text-muted ms-2 small">(<%= listing.reviews.length %>)</span>
+                        </div>
+                    <% } else { %>
+                        <span class="text-muted small mb-2">No reviews yet</span>
+                    <% } %>
+
+                    <!-- View Button -->
+                    <a href="/listings/<%= listing._id %>" class="btn btn-view mt-auto">View Listing</a>
                 </div>
             </div>
+        </div>
         <% }) %>
     </div>
 </div>
+
+
