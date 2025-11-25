@@ -24,7 +24,7 @@ try {
       return next(err);
     }
     console.log('User logged in successfully');
-    req.flash('success', 'Account created successfully! Welcome to Wanderlust!');
+    req.flash('success', 'Account created successfully! Welcome to TravelNest!');
     let redirectUrl = res.locals.redirectUrl || '/listings';
     res.redirect(redirectUrl);
   });
@@ -37,7 +37,7 @@ try {
 
 //login Logic
 module.exports.loginUser = async (req, res) => {
-  req.flash('success', `Welcome back ${req.user.username}! to Wanderlust!`);
+  req.flash('success', `Welcome back ${req.user.username}! to TravelNest!`);
   let redirectUrl = res.locals.redirectUrl || '/listings';
   res.redirect(redirectUrl);
 }

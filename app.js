@@ -34,7 +34,7 @@ mongoose.connect(MONGOATLAS_URI)
 
 // Session configuration with MongoDB store
 const sessionOptions = {
-  secret: "mysupersecretcode",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
