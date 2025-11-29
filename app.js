@@ -28,9 +28,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static('public'));
 
+// DB Connection -
 mongoose.connect(MONGOATLAS_URI)
-  .then(()=> console.log('✅ Database Connected'))
-  .catch(err => console.error('❌ Database Connection Error:', err));
+  .then(()=> console.log('✅ MongoDB Atlas Connected'))
+  .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
 // Session configuration with MongoDB store
 const sessionOptions = {
@@ -38,7 +39,7 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
-    mongoUrl: dbUrl,
+    mongoUrl: MONGOATLAS_URI,
     touchAfter: 24 * 3600 // lazy session update (24 hours)
   }),
   cookie: {
