@@ -1,5 +1,7 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/css/showlisting.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
 
 <body>
   <div class="show-listing-container">
@@ -35,7 +37,7 @@
 
         <div class="host-info">
           <h5><strong>Hosted by</strong> <%= listing.owner.username %></h5>
-          <p class="text-muted mb-0">Joined in 2024</p>
+          <p class="text-muted mb-0">Joined in 2025</p>
         </div>
 
         <div class="review-section" style="margin-top:40px;">
@@ -95,7 +97,7 @@
           <% } %>
         </div>
       </div>
-
+    <form action="/listings/<%= listing._id %>/book" method="POST" class="booking-form">
       <div class="booking-section">
         <div class="booking-card">
           <div class="price">
@@ -106,11 +108,11 @@
             <div class="date-input-group">
               <div class="input-wrapper">
                 <label for="checkin">Check-in</label>
-                <input type="date" id="checkin" name="checkin" required>
+                <input type="text" id="checkin" name="checkin" placeholder="Add date" required style="background-color: white !important;">
               </div>
               <div class="input-wrapper">
                 <label for="checkout">Check-out</label>
-                <input type="date" id="checkout" name="checkout" required>
+                <input type="text" id="checkout" name="checkout" placeholder="Add date" required style="background-color: white !important;">
               </div>
             </div>
             <div class="guests-input">
@@ -118,8 +120,8 @@
               <input type="number" id="guests" name="guests" value="1" min="1" required>
             </div>
           </div>
-
-          <button class="book-btn">Request to Book</button>
+           
+          <button class="book-btn">Proceed For Bookings</button>
           <p class="booking-note">You won't be charged yet</p>
 
           <!-- <div class="price-breakdown">
@@ -139,7 +141,7 @@
         </div>
       </div>
     </div>
-
+  </form>
     <!-- Write Review Section -->
     <% if(currentUser) { %>
       <div class="review-form-section" style="margin-top: 50px; background: #f8f9fa; padding: 30px; border-radius: 15px;">
@@ -168,4 +170,78 @@
     <% } %>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const checkinInput = document.getElementById('checkin');
+      const checkoutInput = document.getElementById('checkout');
+
+      // Initialize Check-in Picker
+      const checkinPicker = flatpickr(checkinInput, {
+        minDate: "today",
+        dateFormat: "Y-m-d",
+        theme: "airbnb",
+        disableMobile: "true", // Force custom picker on mobile for better UX
+          
+        onChange: function(selectedDates, dateStr, instance) {
+          if (selectedDates.length > 0) {
+            const checkinDate = selectedDates[0];
+            const minCheckoutDate = new Date(checkinDate);
+            minCheckoutDate.setDate(minCheckoutDate.getDate() + 1); // Checkout must be at least 1 day after
+
+            checkoutPicker.set('minDate', minCheckoutDate);
+            
+            // If current checkout is invalid (before new min), clear it
+            const currentCheckout = checkoutPicker.selectedDates[0];
+            if (currentCheckout && currentCheckout < minCheckoutDate) {
+              checkoutPicker.clear();
+            }
+            
+            // Auto open checkout for better UX
+            setTimeout(() => checkoutPicker.open(), 100);
+          }
+        }
+      });
+
+      // Initialize Check-out Picker
+      const checkoutPicker = flatpickr(checkoutInput, {
+        minDate: new Date().fp_incr(1), // Default min is tomorrow
+        dateFormat: "Y-m-d",
+        theme: "airbnb",
+        disableMobile: "true"
+      });
+
+      // Form validation before submit
+      const bookingForm = document.querySelector('.booking-form');
+      bookingForm.addEventListener('submit', function(e) {
+        const checkin = document.getElementById('checkin').value;
+        const checkout = document.getElementById('checkout').value;
+        const guests = document.getElementById('guests').value;
+
+        if (!checkin || !checkout || !guests) {
+          e.preventDefault();
+          alert('Please fill in all fields: Check-in date, Check-out date, and number of guests.');
+          return false;
+        }
+
+        if (!checkin) {
+          alert('Please select a check-in date');
+          e.preventDefault();
+          return false;
+        }
+
+        if (!checkout) {
+          alert('Please select a check-out date');
+          e.preventDefault();
+          return false;
+        }
+
+        if (!guests || guests < 1) {
+          flash('Please enter the number of guests (minimum 1)');
+          e.preventDefault();
+          return false;
+        }
+      });
+    });
+  </script>
 </body>

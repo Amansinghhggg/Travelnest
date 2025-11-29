@@ -38,5 +38,10 @@ router.post('/:id/save', isloggedIn, wrapAsync(listingController.saveListing));
 
 // Unsave listing from wishlist
 router.delete('/:id/unsave', isloggedIn, wrapAsync(listingController.unsaveListing));
-
+ //Book listing
+ router.post('/:id/book',isloggedIn,wrapAsync(listingController.bookListing))
+ 
+ // View booking receipt
+ router.get('/bookings/:id/receipt', isloggedIn, wrapAsync(listingController.showBookingReceipt));
+ 
 module.exports = router;

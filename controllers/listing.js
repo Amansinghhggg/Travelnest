@@ -238,3 +238,60 @@ module.exports.unsaveListing = async (req, res, next) => {
   const redirectUrl = req.get('Referer') || '/listings';
   res.redirect(redirectUrl);
 }
+//book listings
+module.exports.bookListing= async(req,res,next)=>{
+  console.log("Booking Request Received");
+  const { checkin, checkout, guests } = req.body;
+  
+  const date1 = new Date(checkin);
+  const date2 = new Date(checkout);
+  // Convert to days
+  const diffDays = (date2 - date1) / (1000 * 60 * 60 * 24);
+  const Listing = require('../MODELS/listing');
+  const listing = await Listing.findById(req.params.id).populate('owner');
+  // Calculate total price
+  const totalPrice = listing.price * diffDays;
+  // Create bookings
+  const Booking = require('../MODELS/bookings');
+  
+  console.log('Owner details:', {
+    email: listing.owner.email,
+    contactNumber: listing.owner.contactNumber
+  });
+  
+  const newBooking = new Booking({
+    user: req.user._id,
+    ownerContactEmail: listing.owner.email || 'Not provided',
+    ownerContactNumber: listing.owner.contactNumber || 'Not provided',
+    listing: listing._id,
+    checkin: date1,  
+    checkout: date2,
+    guests: guests,
+    amount: totalPrice
+  });
+  await newBooking.save();
+  
+  // Add booking to user's bookings array
+  const User = require('../MODELS/user');
+  await User.findByIdAndUpdate(req.user._id, {
+    $push: { bookings: newBooking._id }
+  });
+  
+  console.log(`Booking created: Days: ${diffDays}, Guests: ${guests}, Total: ₹${totalPrice}`);
+  res.render('bookingconfirmation.ejs', { booking: newBooking, listing, diffDays });
+}
+//show booking receipt
+module.exports.showBookingReceipt = async (req, res, next) => {
+  const { id } = req.params;
+  const  Booking = require('../MODELS/bookings');
+  const booking = await Booking.findById(id).populate('listing').populate('user');
+  if (!booking) {
+    req.flash('error', 'Booking not found!');
+    return res.redirect('/listings');
+  }
+  
+  // Calculate duration
+  const diffDays = (new Date(booking.checkout) - new Date(booking.checkin)) / (1000 * 60 * 60 * 24);
+  
+  res.render('bookingReciept', { booking, listing: booking.listing, diffDays });
+} 

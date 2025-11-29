@@ -13,10 +13,10 @@ module.exports.renderLoginForm =async (req, res) => {
 //create User///signup Logic
 module.exports.createUser = async (req, res, next) => {
 try {
-  let {username,email,password} = req.body;
-  console.log('Creating user:', {username, email});
-  const user = new User({username,email});
-  const registeredUser = await User.register(user, password);
+  let {username,email,contactNumber,password} = req.body;
+  console.log('Creating user:', {username, email, contactNumber});
+  const user = new User({username,email,contactNumber});
+  const registeredUser = await User.register(user,password);
   console.log('User registered successfully:', registeredUser.username);
   req.login(registeredUser, (err) => {
     if (err) {
@@ -60,11 +60,20 @@ module.exports.renderProfile = async (req, res) => {
   
   const userListings = await Listing.find({ owner: req.user._id });
   const userReviews = await Review.find({ author: req.user._id });
-  
-  // Populate saved listings
-  const user = await User.findById(req.user._id).populate('savedListings');
+
+  // Populate saved listings and bookings
+  const user = await User.findById(req.user._id).populate('savedListings').populate({
+    path: 'bookings',
+    populate: {
+      path: 'listing',
+      model: 'Listing'
+    }
+  });
   const savedListings = user.savedListings || [];
+  const bookings = user.bookings || [];
   
-  res.render('users/profile.ejs', { userListings, userReviews, savedListings });
+  console.log('User bookings count:', bookings.length);
+  
+  res.render('users/profile.ejs', { userListings, userReviews, savedListings, bookings });
 }
 

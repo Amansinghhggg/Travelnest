@@ -12,6 +12,7 @@ const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const Booking = require('./MODELS/bookings'); // Load Booking model first
 const User = require('./MODELS/user');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -28,9 +29,11 @@ app.use(methodOverride('_method'));
 app.use(express.static('public'));
 
 // DB Connection -
+const dbUrl = 'mongodb://127.0.0.1:27017/wanderlust';
+
 mongoose.connect(MONGOATLAS_URI)
-  .then(()=> console.log('✅ MongoDB Atlas Connected'))
-  .catch(err => console.error('❌ MongoDB Connection Error:', err));
+  .then(()=> console.log('✅ Database Connected'))
+  .catch(err => console.error('❌ Database Connection Error:', err));
 
 // Session configuration with MongoDB store
 const sessionOptions = {
@@ -38,7 +41,7 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
-    mongoUrl: MONGOATLAS_URI,
+    mongoUrl: dbUrl,
     touchAfter: 24 * 3600 // lazy session update (24 hours)
   }),
   cookie: {
@@ -99,6 +102,12 @@ app.use((err, req, res, next) => {
   if (err.statusCode!==404) {
     console.error(err);
   }
+  
+  // Ensure currentUser is defined for the navbar in case of error before auth middleware
+  if (typeof res.locals.currentUser === 'undefined') {
+      res.locals.currentUser = null;
+  }
+  
   let { statusCode = 500, message = 'Something went wrong' } = err;
   res.render('error', { statusCode, message });
 });

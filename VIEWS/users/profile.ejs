@@ -22,6 +22,10 @@
         <span class="stat-number"><%= userReviews ? userReviews.length : 0 %></span>
         <span class="stat-label">Reviews</span>
       </div>
+      <div class="stat-item">
+        <span class="stat-number"><%= bookings ? bookings.length : 0 %></span>
+        <span class="stat-label">Bookings</span>
+      </div>
     </div>
   </div>
 
@@ -33,7 +37,7 @@
       <i class="fa-solid fa-heart"></i> Saved Listings
     </button>
     <button class="tab-button" onclick="showTab('bookings')">
-      <i class="fa-solid fa-calendar-check"></i> Booking Requests
+      <i class="fa-solid fa-calendar-check"></i> Bookings
     </button>
   </div>
 
@@ -115,20 +119,46 @@
 
   <!-- Booking Requests Tab -->
   <div id="bookings-tab" class="tab-content">
-    <div class="empty-state">
-      <div class="empty-icon">
-        <i class="fa-solid fa-calendar-xmark"></i>
+    <% if (bookings && bookings.length > 0) { %>
+      <div class="listings-grid">
+        <% for(let booking of bookings) { %>
+          <div class="listing-card">
+            <img src="<%= booking.listing.image.url %>" alt="<%= booking.listing.title %>" class="listing-image">
+            <div class="listing-content">
+              <h3 class="listing-title"><%= booking.listing.title %></h3>
+              <p class="listing-location">
+                <i class="fa-solid fa-location-dot"></i> <%= booking.listing.location %>, <%= booking.listing.country %>
+              </p>
+              <p class="listing-location" style="color: #10b981; font-weight: 600;">
+                <i class="fa-solid fa-calendar-days"></i>
+                <%= new Date(booking.checkin).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %> - 
+                <%= new Date(booking.checkout).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+              </p>
+              <div class="listing-price">₹<%= booking.amount.toLocaleString("en-IN") %> <span style="font-size: 0.8rem; font-weight: 400; color: #666;">total</span></div>
+              <div class="listing-actions">
+                <a href="/listings/bookings/<%= booking._id %>/receipt" class="btn-view">View Receipt</a>
+                <button onclick="shareListing('<%= booking.listing._id %>')" class="btn-edit" title="Share">
+                  <i class="fa-solid fa-share-nodes"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        <% } %>
       </div>
-      <div class="empty-text">No booking requests yet</div>
-      <p style="color: #999; margin-bottom: 30px;">Browse listings to make your first booking</p>
-      <a href="/listings" class="btn-create">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        Explore Listings
-      </a>
-    </div>
+    <% } else { %>
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="fa-solid fa-calendar-xmark"></i>
+        </div>
+        <div class="empty-text">No bookings Done yet</div>
+        <p style="color: #999; margin-bottom: 30px;">Browse listings to make your first booking</p>
+        <a href="/listings" class="btn-create">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          Explore Listings
+        </a>
+      </div>
+    <% } %>
   </div>
-</div>
-
 <script>
   function showTab(tabName) {
     // Hide all tabs
