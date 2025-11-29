@@ -28,9 +28,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static('public'));
 
-// DB Connection -
-const dbUrl = 'mongodb://127.0.0.1:27017/wanderlust';
-
 mongoose.connect(MONGOATLAS_URI)
   .then(()=> console.log('✅ Database Connected'))
   .catch(err => console.error('❌ Database Connection Error:', err));
